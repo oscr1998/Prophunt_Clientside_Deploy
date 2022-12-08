@@ -8,7 +8,7 @@ Follow this link to go to the website!: https://revelio.netlify.app/
 
 ## Installation & Usage
 
-- Clone or download these three repository:
+- Clone or download these three repositories:
     1. https://github.com/oscr1998/Revelio_Clientside_Deploy
     2. https://github.com/oscr1998/Revelio_Development
     3. https://github.com/oscr1998/Revelio_JS_Server
