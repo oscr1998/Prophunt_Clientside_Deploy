@@ -59,8 +59,8 @@ Follow this link to go to the website!: https://revelio.netlify.app/
 
 ### Wins
 
-- Good Team Members
-- Fun app idea
+- Fully functioning app
+- Able to include lots of bonus features 
 
 ### Challenges
 
