@@ -35,7 +35,7 @@ export default function Dashboard() {
     //! DEVELOPMENT ONLY
     useEffect(()=>{
         if (!socket){
-            socket = io("http://localhost:3030/");
+            socket = io(Flask_URI);
             socket.on('connect', () => { 
                 console.log(socket.id);
                 dispatch(store_socket(socket))
