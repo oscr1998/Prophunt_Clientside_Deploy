@@ -9,15 +9,14 @@ import { CreateGame } from '../../components';
 
 //* Redux
 import { useSelector, useDispatch } from "react-redux";
-import { store_roomID, store_socket, update_players } from '../../actions/socket/socketSlice'
+import { store_gameInfo, store_roomInfo, store_socket, update_players } from '../../actions/socket/socketSlice'
 
 import axios from 'axios'
 
 //! DEVELOPMENT ONLY
 import io from 'socket.io-client';
+let socket;
 
-export let socket
-export let room
 //! DEVELOPMENT ONLY
 
 export default function Dashboard() {
@@ -26,15 +25,31 @@ export default function Dashboard() {
     const dispatch = useDispatch();
 
     const Flask_URI = useSelector(state => state.flask.URI)
+    const Socket_URI = useSelector(state => state.socket.URI)
     const isLogin = localStorage.getItem('isLogin');
 
 
     const [ createGameModel, setCreateGameModel ] = useState(false)
-    const [ roomID, setRoomID ] = useState("123")
+    const [ roomID, setRoomID ] = useState(useSelector(state => state.socket.roomID))
     const [ stats, setStats ] = useState("")
 
+    //! DEVELOPMENT ONLY
+    useEffect(()=>{
+        if (!socket){
+            socket = io(Socket_URI);
+            socket.on('connect', () => { 
+                console.log(socket.id);
+                dispatch(store_socket(socket))
+            })
+            socket.on('update-room', (players) => {
+                dispatch(update_players(players))
+            })
+        }
+    },[])
+    //! DEVELOPMENT ONLY
+
     useEffect(() => {
-        console.log("ping!! do socket");
+        // Check Auth and load stats
         if(isLogin === "false" || isLogin === null){
             navigate('/')
         } else if (isLogin == "true"){
@@ -55,17 +70,20 @@ export default function Dashboard() {
                     console.warn("Something wired at /login/catch");
                 }
             });
-
-        }
+        }        
     },[])
 
     function handleJoinRoom(e){
         e.preventDefault();
-        room = roomID
-        socket.emit('join-room', roomID, msg => { 
-            console.log(`ID(${msg.id}) has joined room(${msg.room})`);
-            dispatch(store_roomID(roomID))
-            navigate('/lobby')
+        socket.emit('join-room', roomID, false, null, msg => { 
+            if(msg.room === null){
+                alert("Room ID is unvalid.")
+            } else {
+                console.log(`ID(${msg.id}) has joined room(${msg.room})`);
+                dispatch(store_roomInfo({ roomID: roomID, isHost: false }))
+                dispatch(store_gameInfo(msg.gameInfo))
+                navigate('/lobby')
+            }
         })
     }
 
@@ -77,6 +95,7 @@ export default function Dashboard() {
             console.warn(err);
         })
         localStorage.clear();
+        socket.disconnect();
         navigate('/')
     }
 
@@ -93,18 +112,7 @@ export default function Dashboard() {
 
 
 
-    //! DEVELOPMENT ONLY
-    useEffect(()=>{
-        socket = io("http://localhost:3030/");
-        socket.on('connect', () => { 
-            console.log(socket.id);
-            dispatch(store_socket(socket))
-        })
-        socket.on('update-room', (players) => {
-            dispatch(update_players(players))
-        })
-    },[])
-    //! DEVELOPMENT ONLY
+
 
     return (
         <Zoom><div id='dashboardContainer' className='loginContainer nes-container is-centered'>

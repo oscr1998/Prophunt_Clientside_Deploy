@@ -1,5 +1,5 @@
 import { props, propListLarge, propListSmall } from './index'
-import { socket, room } from '../pages/Dashboard/index'
+import { socket, room } from '../pages/Lobby'
 
 let lastFired = 0
 
