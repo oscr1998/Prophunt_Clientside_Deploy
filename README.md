@@ -9,12 +9,12 @@ Follow this link to go to the website!: https://revelio.netlify.app/
 ## Installation & Usage
 
 - Clone or download these three repository:
-    1. https://github.com/oscr1998/Prophunt_Clientside_Deploy
-    2. https://github.com/oscr1998/PropHunt_JS_Server
-    3. https://github.com/oscr1998/Prophunt_PY_Server
+    1. https://github.com/oscr1998/Revelio_Clientside_Deploy
+    2. https://github.com/oscr1998/Revelio_Development
+    3. https://github.com/oscr1998/Revelio_JS_Server
 
 - Or clone or download this repoistory to have all three of the above repositories in one place:
-    - https://github.com/oscr1998/PropHunt_Development
+    - https://github.com/oscr1998/Revelio_PY_Server
 
 - For repository 1:
     - Navigate to your terminal
