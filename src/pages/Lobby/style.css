@@ -1,0 +1,16 @@
+.lobbycontainer{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    background-color: rgb(251,224,177);
+}
+
+.nes-btn.is-success {
+    background-color: rgb(126,139,89);
+}
+
+.nes-btn.is-primary {
+    background-color: rgb(106,185,163);
+}

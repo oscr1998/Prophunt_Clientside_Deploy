@@ -1,0 +1,21 @@
+.usrNm{
+    background-color: white;
+    border: solid black 3px;
+}
+
+.nes-btn.is-success {
+    margin-bottom: 2.2%;
+    /* width: 70%; */
+}
+
+.nes-btn.is-primary {
+    margin-bottom: 2.2%;
+}
+
+.loginContainer {
+    background-color: rgb(250,223,176);
+}
+
+#loginbtn {
+    width: 70%
+}
