@@ -14,7 +14,7 @@ Follow this link to go to the website!: https://revelio.netlify.app/
     3. https://github.com/oscr1998/Prophunt_PY_Server
 
 - Or clone or download this repoistory to have all three of the above repositories in one place:
-    iv. https://github.com/oscr1998/PropHunt_Development
+    - https://github.com/oscr1998/PropHunt_Development
 
 - For repository 1:
     - Navigate to your terminal
