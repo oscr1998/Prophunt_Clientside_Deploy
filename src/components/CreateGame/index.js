@@ -2,6 +2,9 @@ import { React, useState } from "react";
 import { motion } from "framer-motion";
 import Backdrop from "../Backdrop";
 import "./style.css";
+import { useSelector, useDispatch } from "react-redux";
+import { store_gameInfo, store_roomInfo } from "../../actions/socket/socketSlice";
+import { useNavigate } from "react-router-dom";
 
 const dropIn = {
   hidden: {
@@ -24,12 +27,17 @@ const dropIn = {
   },
 };
 
-export default function CreateGame({
-  handleClose,
-  setCreateGameModel = { setCreateGameModel },
-}) {
-  const [createGameInfo, setCreateGameInfo] = useState({
-    gameMode: "normal",
+export default function CreateGame({ handleClose, setCreateGameModel = { setCreateGameModel }}) {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const socket = useSelector(state => state.socket.socket);
+
+  const [errMsg, setErrMsg] = useState(null)
+  const [gameInfo, setGameInfo] = useState({
+    map: 0,
+    gameMode: 0,
     roomSize: 2,
   });
 
@@ -42,7 +50,25 @@ export default function CreateGame({
     //todo      - navigate('/lobby')
     //todo if failed:
     //todo      - render an error msg
+    if(gameInfo.roomSize > gameInfo.gameMode){
+      setErrMsg("")
+      const roomID = Math.floor(Math.random()*1000000).toString()
+    //   socket.emit('create-game', gameInfo, roomID, msg => { 
+    //     console.log(`ID(${msg.id}) has create room(${msg.room})`);
+    //     dispatch(store_roomInfo(roomID))
+    //     navigate('/lobby')
+    // })
+    socket.emit('join-room', roomID, true, gameInfo, msg => { 
+      console.log(`ID(${msg.id}) has created and joined room(${msg.room})`);
+      dispatch(store_roomInfo({ roomID: roomID, isHost: true }))
+      dispatch(store_gameInfo(gameInfo))
+      navigate('/lobby')
+  })
+    } else {
+      setErrMsg("You must have at least one hider in the game.")
+    }
   }
+
 
   return (
     <form id="createForm" onSubmit={handelCreateGame}>
@@ -56,6 +82,7 @@ export default function CreateGame({
         >
           <div className="loginContainer createpopup nes-container is-centered">
             <button
+              className="closebtn"
               onClick={() => {
                 setCreateGameModel(false);
                 return false;
@@ -65,65 +92,44 @@ export default function CreateGame({
             
             <h1>Create Game</h1>
 
-            {/* gamemode, roomsize, submitBtn */}
             <label id="maplabel">
-              <div class="nes-select is-dark">
+              <div className="nes-select is-dark">
                 <select
                   required
                   id="dark_select"
-                  value={createGameInfo.gameMode}
+                  value={gameInfo.map}
                   onChange={(e) => {
-                    setCreateGameInfo({
-                      ...createGameInfo,
-                      gameMode: e.target.value,
+                    setGameInfo({
+                      ...gameInfo,
+                      map: e.target.value,
                     });
                   }}
                 >
-                  <option value="0">Select Map</option>
-                  <option value="1">Skidrow</option>
-                  <option value="2">Skull Island</option>
+                  <option value="0" key="0" disabled>Select Map</option>
+                  <option value="1" key="1">Skidrow</option>
+                  <option value="2" key="2">Skull Island</option>
                 </select>
-
-                {/* <input
-                  value={createGameInfo.gameMode}
-                  onChange={(e) => {
-                    setCreateGameInfo({
-                      ...createGameInfo,
-                      gameMode: e.target.value,
-                    });
-                  }}
-                /> */}
                 <br />
               </div>
             </label>
 
                 <label id="gamemodelabel">
-            <div class="nes-select is-dark">
+            <div className="nes-select is-dark">
                 <select
                   required
                   id="dark_select"
-                  value={createGameInfo.gameMode}
+                  value={gameInfo.gameMode}
                   onChange={(e) => {
-                    setCreateGameInfo({
-                      ...createGameInfo,
+                    setGameInfo({
+                      ...gameInfo,
                       gameMode: e.target.value,
                     });
                   }}
                 >
-                  <option value="0">Select Game Mode</option>
-                  <option value="1">Game Mode 2</option>
-                  <option value="0">Game Mode 3</option>
+                  <option value="0" key="0" disabled>Select Game Mode</option>
+                  <option value="1" key="1">1 Hunters</option>
+                  <option value="2" key="2">2 Hunters</option>
                 </select>
-
-                {/* <input
-                  value={createGameInfo.gameMode}
-                  onChange={(e) => {
-                    setCreateGameInfo({
-                      ...createGameInfo,
-                      gameMode: e.target.value,
-                    });
-                  }}
-                /> */}
                 <br />
               </div>
             </label>
@@ -136,16 +142,18 @@ export default function CreateGame({
                 type="number"
                 min={2}
                 max={5}
-                value={createGameInfo.roomSize}
+                value={gameInfo.roomSize}
                 onChange={(e) => {
-                  setCreateGameInfo({
-                    ...createGameInfo,
+                  setGameInfo({
+                    ...gameInfo,
                     roomSize: e.target.value,
                   });
                 }}
               />
               <br />
             </label>
+            <h3 style={{"color": "#D04E3E"}}>{errMsg}</h3>
+            <input type="submit" value="Submit" disabled={gameInfo.map === 0 || gameInfo.gameMode === 0}/>
           </div>
         </motion.div>
       </Backdrop>
