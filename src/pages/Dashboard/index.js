@@ -25,6 +25,7 @@ export default function Dashboard() {
     const dispatch = useDispatch();
 
     const Flask_URI = useSelector(state => state.flask.URI)
+    const Socket_URI = useSelector(state => state.socket.URI)
     const isLogin = localStorage.getItem('isLogin');
 
 
@@ -35,7 +36,7 @@ export default function Dashboard() {
     //! DEVELOPMENT ONLY
     useEffect(()=>{
         if (!socket){
-            socket = io(Flask_URI);
+            socket = io(Socket_URI);
             socket.on('connect', () => { 
                 console.log(socket.id);
                 dispatch(store_socket(socket))
