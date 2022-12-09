@@ -47,12 +47,11 @@ export default function ResetPwd({ handleClose }) {
     })
     .then((res)=> {
         if(res.status === 200){
-          setErrMsg("Successful reset! \nRedirect to login in 3")
           let counter = 3;
           setInterval(()=>{
             setErrMsg(`Successful reset! \nRedirect to login in ${counter}`)
             counter --
-            if (counter === 0) {
+            if (counter === -1) {
               handleClose(false)
             }
           },1000)

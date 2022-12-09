@@ -56,14 +56,13 @@ export default function Register({ handleClose }) {
         })
         .then((res) => {
           if (res.status === 201) {
-            setRegErrMsg("Register successful! \nRedirect to login in 3");
             let counter = 3;
             setInterval(() => {
               setRegErrMsg(
                 `Register successful! \nRedirecting to login in ${counter}`
               );
               counter--;
-              if (counter === 0) {
+              if (counter === -1) {
                 handleClose(false);
               }
             }, 1000);

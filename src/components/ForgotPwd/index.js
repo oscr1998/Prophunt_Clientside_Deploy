@@ -44,12 +44,11 @@ export default function ForgotPwd({ handleClose, redirect }) {
         email: pwdInfo.email,
     })
     // You dont wait for responds this time or user can perform timing side channel attack
-    setErrMsg("Please check your Email inbox for an OTP \nRedirect to reset page in 3")
     let counter = 3;
     setInterval(()=>{
       setErrMsg(`Please check your Email inbox for an OTP \nRedirect to reset page in ${counter}`)
       counter --
-      if (counter === 0) {
+      if (counter === -1) {
         handleClose(false)
         redirect(true)
       }
