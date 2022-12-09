@@ -12,7 +12,6 @@ export default function Leaderboard() {
     const [sort_by, setSort_by] = useState("wins");
 
 	useEffect(()=>{
-		console.log(sort_by);
 		axios.get(`${flaskURI}/leaderboard/${sort_by}/10`)
 		.then(res => setTopScores(res.data))
 	},[sort_by])
@@ -32,7 +31,7 @@ export default function Leaderboard() {
 						>
 						<option value="wins" key="wins">Wins</option>
 						<option value="wins_as_hunter" key="wins_as_hunter">Top Hunter</option>
-						<option value="wins_by_hider" key="wins_by_hider">Top Hider</option>
+						<option value="wins_as_hider" key="wins_as_hider">Top Hider</option>
 						<option value="games_played" key="games_played">Total Game Played</option>
 						</select>
 						<br />
