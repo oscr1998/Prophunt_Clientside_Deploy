@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './style.css'
+import axios from 'axios'
+import { useSelector } from "react-redux";
+
 
 export default function Leaderboard() {
 
-    const [topScores, setTopScores] = useState();
+	const flaskURI = useSelector( state => state.flask.URI)
 
-    const sortLeaderboards = (data) => {
-		setTopScores(
-			data?.sort((a, b) => {
-				return b.score - a.score;
-			})
-		);
-	};
+    const [topScores, setTopScores] = useState([]);
+    const [sort_by, setSort_by] = useState("wins");
+
+	useEffect(()=>{
+		console.log(sort_by);
+		axios.get(`${flaskURI}/leaderboard/${sort_by}/10`)
+		.then(res => setTopScores(res.data))
+	},[sort_by])
 
     return (
         <div className="leaderboard-container">
@@ -19,6 +23,21 @@ export default function Leaderboard() {
 			<div className="leaderboard">
 
 				<h1 className='leaderboardh1'>Leaderboard</h1>
+				
+				<label>
+					<div className="nes-select">
+						<select
+						value={sort_by}
+						onChange={(e) => {setSort_by(e.target.value)}}
+						>
+						<option value="wins" key="wins">Wins</option>
+						<option value="wins_as_hunter" key="wins_as_hunter">Top Hunter</option>
+						<option value="wins_by_hider" key="wins_by_hider">Top Hider</option>
+						<option value="games_played" key="games_played">Total Game Played</option>
+						</select>
+						<br />
+					</div>
+				</label>
 	
 				<table>
 					<tbody>
@@ -31,12 +50,15 @@ export default function Leaderboard() {
                             <th>Wins as Hider</th>
 						</tr>
 
-						{topScores?.slice(0, 10).map((user, index) => {
+						{topScores.map((user, idx) => {
 							return (
-								<tr key={index}>
-									<td>{index + 1}</td>
+								<tr key={idx}>
+									<td>{idx + 1}</td>
 									<td>{user.username}</td>
-									<td>{user.score}</td>
+									<td>{user.games_played}</td>
+									<td>{user.wins}</td>
+									<td>{user.wins_as_hunter}</td>
+									<td>{user.wins_as_hider}</td>
 								</tr>
 							);
 						})}
