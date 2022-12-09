@@ -57,7 +57,7 @@ export default function ForgotPwd({ handleClose, redirect }) {
   }
 
   return (
-    <Backdrop onClick={handleClose}>
+    <Backdrop>
       <motion.div
         onClick={(e) => e.stopPropagation()}
         variants={dropIn}

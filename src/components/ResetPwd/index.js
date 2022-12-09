@@ -67,7 +67,7 @@ export default function ResetPwd({ handleClose }) {
   }
 
   return (
-    <Backdrop onClick={handleClose}>
+    <Backdrop>
       <motion.div
         onClick={(e) => e.stopPropagation()}
         variants={dropIn}

@@ -78,7 +78,7 @@ export default function Register({ handleClose }) {
   }
 
   return (
-    <Backdrop onClick={handleClose}>
+    <Backdrop>
       <motion.div
         onClick={(e) => e.stopPropagation()}
         variants={dropIn}
@@ -163,7 +163,7 @@ export default function Register({ handleClose }) {
             />
             <br />
           </label>
-
+          <h6 style={{"color": "#D04E3E"}}>{regErrMsg}</h6>
           <input type="submit" value="Submit" className="registersubmitbtn" />
         </form>
       </motion.div>
