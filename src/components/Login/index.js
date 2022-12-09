@@ -48,10 +48,10 @@ export default function Login() {
         .catch((err) => {
             if(err.response.status === 400 && isLogin === "false"){
                 localStorage.setItem("isLogin", false)
-                setloginErrMsg("Incorrect login details")
             } else {
                 console.warn("Something wired at /login/catch");
             }
+            setloginErrMsg("Incorrect login details")
         });
     }
 
