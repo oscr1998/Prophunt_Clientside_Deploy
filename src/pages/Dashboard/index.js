@@ -58,7 +58,7 @@ export default function Dashboard() {
                 password: localStorage.getItem('password'),
             })
             .then((res)=> {
-                if(res.status === 200){
+                if(err.response.status === 400 && isLogin === "false"){
                     setStats(res.data)
                 }
             })
