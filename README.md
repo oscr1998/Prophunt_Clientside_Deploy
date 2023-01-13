@@ -6,6 +6,19 @@ Revelio! is a Phaser/React Game connected to two different Backends. One Python 
 
 Follow this link to go to the website!: https://revelio.netlify.app/
 
+## Videos
+
+### Register | Login | Create & Join Games:
+https://user-images.githubusercontent.com/104166937/212206197-5466aa1c-e2c7-48c2-a62f-28a61f7e2b20.mp4
+
+
+### Gameplay:
+https://user-images.githubusercontent.com/104166937/212205280-14a97f96-e9ea-45b6-9281-504d753988d6.mp4
+
+
+
+
+
 ## Installation & Usage
 
 - Clone or download these three repositories:
